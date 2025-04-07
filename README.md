@@ -37,7 +37,7 @@ To run the Metta code in this repository, you'll need to set up your local envir
 1.  **Clone the Repository:** Clone this repository to your local machine using Git:
 
     ```bash
-    git clone [repository URL]
+    git clone (https://github.com/Tesfalegnp/Metta-Language-Practice.git)
     ```
 
 2.  **Navigate to the Directory:** Change your current directory to the cloned repository:
@@ -49,20 +49,9 @@ To run the Metta code in this repository, you'll need to set up your local envir
 3.  **Run the Metta Code:** Each `.metta` file in the repository contains Metta code examples. You can run these files using the Hyperon interpreter. For example, to run `example1.metta`, use the following command:
 
     ```bash
-    python3 -m hyperon example1.metta
+    python3 -m hyperon Map_Determinism.metta
     ```
 
-4.  **Experiment and Modify:** Feel free to experiment with the code examples and modify them to explore different Metta concepts.
-
-## Examples
-
-The repository includes the following examples:
-
-* `example1.metta`: A simple example demonstrating basic Metta syntax and operations.
-* `example2.metta`: An example illustrating variable binding and pattern matching.
-* `example3.metta`: An example of basic atom manipulation.
-* `example4.metta`: An example of basic queries.
-* `example5.metta`: An example of functions and basic abstraction.
 
 ## Contributing
 
