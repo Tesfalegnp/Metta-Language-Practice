@@ -8,7 +8,10 @@
 (=(half_float $x) (/ $x 2))
 
 (= (map $oper $expr)
-    ($oper (superpose $expr))
+    (collapse ($oper (superpose $expr)))
+)
+(= (map` $oper $expr $accum)
+    ()
 )
 
 (=(by_3 $a) (* $a 3))

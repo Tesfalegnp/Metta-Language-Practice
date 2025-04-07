@@ -9,3 +9,4 @@
 (: foo (-> A B))
 ! (get-type (foo a)) ; B
 
+!(get-type a) ; A

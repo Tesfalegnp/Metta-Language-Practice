@@ -2,6 +2,9 @@
 ;; ==========  Extract the last element of the list ==========
 
 ; Q1. Extract the last element of the list
+(: List Type)
+(: :: (-> $x List List))
+(: () List)
 
 (= (last-element (:: $x ())) (:: $x))  
 (= (last-element (:: $x $y)) (last-element $y))  
@@ -13,7 +16,7 @@
 ;; ==========  Add an element at the beginning ========== 
 
 ; Q2. Add an element at the beginning
-
+(: append-begin (-> ($t List List)))
 (= (append-begin $elem $lst) (:: $elem $lst))
 
 ! (append-begin 0 (:: 1 (:: 2 (:: 3 (:: 4 ())))))  
