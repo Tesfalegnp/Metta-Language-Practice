@@ -1,71 +1,109 @@
 ;; ================================
-;; Function: test-rule
-;; Arguments:
-;;   $scenario: Function (Predicate -> Atom) - A function that evaluates a rule.
-;;   $rule: String - The name of the rule to test.
-;; Returns:
-;;   String - "Rule conditions met. Executing action..." if successful,
-;;            "undiscovered" otherwise.
-(= (test-rule $scenario $rule)
-  (if (== $rule "drunk-when-thrust") ;; Check if the rule matches the expected name
-    (let* (
-        ($x ($scenario $rule)) ;; Evaluate the scenario with the rule
-      )
-      ($x) ;; Return the result of the scenario evaluation
-    )
-    "undiscovered" ;; Return "undiscovered" if the rule does not match
+;; Define Contexts
+;; These are conditions that must be true for the rule to apply.
+(= context-hungry
+  (EvaluationLink
+    (PredicateNode "is-hungry")          ;; Predicate: The agent is hungry.
+    (ListLink (ConceptNode "agent"))     ;; Argument: The agent itself.
+  )
+)
+
+(= context-food-available
+  (EvaluationLink
+    (PredicateNode "food-available")     ;; Predicate: Food is available.
+    (ListLink (ConceptNode "location-kitchen")) ;; Argument: Location (kitchen).
   )
 )
 
 ;; ================================
-;; Function: AndLink
-;; Arguments:
-;;   $n: Boolean - First condition to check.
-;;   $k: Boolean - Second condition to check.
-;; Returns:
-;;   Boolean - True if both $n and $k are True, False otherwise.
-(= (AndLink $val1 $val2)
-  (if (== $val1 True)
-    (if (== $val2 True)
-      True ;; Both conditions are True
-      False ;; Second condition is False
-    )
-    False ;; First condition is False
+;; Define Action
+;; This is what the agent will do if the  contexts are met.
+(= action-eat
+  (ExecutionLink
+    (SchemaNode "eat")                   ;; Schema: The action of eating.
+    (ListLink (ConceptNode "food-item")) ;; Argument: The food item to eat.
   )
 )
 
 ;; ================================
-;; Function: test-senario
-;; Arguments:
-;;   $rule: String - The name of the rule to test.
-;; Returns:
-;;   String - "Correctly matched the rule..." if successful,
-;;            "undiscovered" otherwise.
-(= (test-senario $rule)
-  (if (== $rule "drunk-when-thrust") ;; Check if the rule matches the expected name
-    (if (== (AndLink True True) True) ;; Test the AndLink function
-      "Correctly matched the rule...\n" ;; Output when the rule matches
-      "undiscovered-1" ;; Output when the rule does not match
-    )
-    "undiscovered" ;; Output when the rule does not match
+;; Define Goal
+;; This is what the agent wants to achieve by performing the action.
+(= goal-not-hungry
+  (EvaluationLink
+    (PredicateNode "not-hungry")         ;; Predicate: The agent is no longer hungry.
+    (ListLink (ConceptNode "agent"))     ;; Argument: The agent itself.
   )
 )
 
 ;; ================================
-;; Test the AndLink function
-;; Expected Output: True
-!(AndLink True True)
+;; Define Psi-Rule
+;; This rule combines contexts, action, and goal into an implication.
+(= eat-when-hungry-rule
+  (ImplicationLink
+    (AndLink                           ;; Combine multiple contexts with AND.
+      context-hungry                   ;; Context: Agent is hungry.
+      context-food-available           ;; Context: Food is available.
+    ) 
+    action-eat                         ;; Action: Eat the food.
+    goal-not-hungry                    ;; Goal: Become not hungry.
+  )
+)
 
 ;; ================================
-;; Execute the test-rule function with the test-senario and rule name
-;; Expected Output: "Correctly matched the rule..."
-!(test-rule test-senario "drunk-when-thrust")
+;; Test Scenario
+;; Simulate a situation where the agent is hungry and food is available.
+(= test-scenario
+  (AndLink
+    (EvaluationLink
+      (PredicateNode "is-hungry")       ;; Condition: Agent is hungry.
+      (ListLink (ConceptNode "agent"))
+    )
+    (EvaluationLink
+      (PredicateNode "food-available")  ;; Condition: Food is available.
+      (ListLink (ConceptNode "location-kitchen"))
+    )
+  )
+)
 
 ;; ================================
+;; Function to Test the Rule
+;; This function checks if the rule's conditions are met and executes the action.
+(= test-rule
+  (lambda (scenario rule)
+    (if (== (cog-execute! scenario)     ;; Check if the scenario matches the rule's context.
+            (cog-execute! (get-context rule)))
+        (begin                          ;; If conditions are met:
+          (display "Rule conditions met. Executing action...\n")
+          (cog-execute! (get-action rule)) ;; Execute the action.
+          (display "Goal achieved.\n")
+        )
+        (display "Rule conditions not met.\n") ;; If conditions are not met.
+    )
+  )
+)
+
+;; ================================
+;; Helper Functions
+;; These functions extract parts of the rule for easier processing.
+
+;; Get the context part of the rule.
+(= get-context
+  (lambda (rule)
+    (gar rule) ;; Extract the first part of the ImplicationLink (context).
+  )
+)
+
+;; Get the action part of the rule.
+(= get-action
+  (lambda (rule)
+    (gdr rule) ;; Extract the last part of the ImplicationLink (action).
+  )
+)
+
+;; ================================
+;; Run the Test
+;; Execute the test-rule function with the test scenario and the rule.
+!(test-rule test-scenario eat-when-hungry-rule)
+
 ;; Print completion message
-!("Test is Completed")
-
-;; ================================
-;; Test the AndLink function again with example input
-;; Expected Output: True
-!(AndLink True True)
+!("Test completed.")
