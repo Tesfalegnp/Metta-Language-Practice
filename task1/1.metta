@@ -52,8 +52,8 @@
 ;; ================================
 ;; Test Scenario
 ;; Simulate a situation where the agent is hungry and food is available.
-(= test-scenario
-  (AndLink
+(= (test-scenario
+  (AndLink 
     (EvaluationLink
       (PredicateNode "is-hungry")       ;; Condition: Agent is hungry.
       (ListLink (ConceptNode "agent"))
@@ -62,7 +62,7 @@
       (PredicateNode "food-available")  ;; Condition: Food is available.
       (ListLink (ConceptNode "location-kitchen"))
     )
-  )
+  ))
 )
 
 ;; ================================

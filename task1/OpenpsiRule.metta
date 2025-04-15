@@ -12,12 +12,9 @@
 
 ;; ================================
 (= (AndLink $val1 $val2)
-  (if (== $val1 True)
-    (if (== $val2 True)
+  (if (and (== $val2 True) (== $val1 True))
       True ;; Both conditions are True
       False ;; Second condition is False
-    )
-    False ;; First condition is False
   )
 )
 
@@ -30,7 +27,7 @@
       "undiscovered-1" ;; Output when the rule does not match
     )
     "undiscovered" ;; Output when the rule does not match
-  )
+  ) 
 )
 
 

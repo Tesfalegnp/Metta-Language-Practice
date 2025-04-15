@@ -10,6 +10,7 @@
 
 (: findMin (-> (List Number) Number))
 (: helper (->  (List Number) Number Number))
+
 (= (findMin (:: $h $t)) (helper $t $h))
 (= (findMin ()) ())
 
