@@ -1,8 +1,11 @@
+
 ;; ================================
+
 (: ConceptNode Type) 
 (: PredicateNode Type)
 (: ActionNode Type) 
 (: EvaluationLintk Type)
+
 
 (= (high_tem)(PredicateNode "tem_high"))
 (= (is_aDayTime)(PredicateNode "is_daytime"))
@@ -12,7 +15,8 @@
 (: test-rule(->List List List))
 (= (test-rule $scenario $rule) 
   (if (== $rule "drunk-when-thrust") ;; Check if the rule matches the expected name
-    (let* (
+    (let* 
+      (
         ($x ($scenario $rule)) ;; Evaluate the scenario with the rule
       )
       ($x) ;; Return the result of the scenario evaluation
