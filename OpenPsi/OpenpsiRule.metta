@@ -21,7 +21,7 @@
       )
       ($x) ;; Return the result of the scenario evaluation
     )
-    "undiscovered-first" ;; Return "undiscovered" if the rule does not match
+    "Not mutch with Rule " ;; Return, if the rule does not match
   )
 )
 
@@ -42,10 +42,10 @@
 (= (test-senario $rule)
   (if (== $rule "drunk-when-thrust") ;; Check if the rule matches the expected name
     (if (== (AndLink ( high_tem) (is_aDayTime)) True) ;; Test the AndLink function
-      "Correctly matched the rule...\n" ;; Output when the rule matches
-      "undiscovered-Last" ;; Output when the rule does not match
+      "Correctly Satisfied the rule..." ;; Output when the rule matches
+      "Unsatisfied" ;; Output when the rule does not match
     )
-    "undiscovered" ;; Output when the rule does not match
+    "UnMatch with Senarion" ;; Output when the rule does not match
   ) 
 )
 

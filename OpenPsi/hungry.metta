@@ -35,5 +35,6 @@
     
 !(rule test)
 !(rule result)
+!("Test is Completly Done")
 
 
