@@ -34,3 +34,15 @@
 !(add-atom &created_entity (Parent Bob Georgy)) ; Add the updated atom to the space
 !(match &created_entity $entity $entity) ; Match the created entity with two variables
 !(match &created_entity (Parent Bob $check) $check) ; execute the pattern matching for checking the added atom
+ 
+
+ ; Other way of impelementation for Update
+
+ (= (update-atom $space $olde_atom $new_atom)
+        (
+            let $x (remove-atom $space $olde_atom) (add-atom $space $new_atom)
+        )
+ )
+ 
+!(update-atom &created_entity (Parent Bob Jeny) (Parent Bob Alex))
+!(match &created_entity(Parent Bob $check) $check) ;Expected Updatation is (Georgy, Alex)
