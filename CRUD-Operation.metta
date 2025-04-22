@@ -1,9 +1,9 @@
-;             ;; Simple Define the Knowledge Base
-; (Parent Bob Alian)
-; (Parent Manica Hermela)
-; (Parent Bob Jeny)
-;             ;;Pattern Matching
-; !(match &self(Parent Bob $x) $x) ; Expectes (Jeny, Alian)
+        ;              ;; Simple Define the Knowledge Base
+        ;  (Parent Bob Alian)
+        ;  (Parent Manica Hermela)
+        ;  (Parent Bob Jeny)
+        ;              ;;Pattern Matching
+        ;  !(match &self(Parent Bob $x) $x) ; Expectes (Jeny, Alian)
 
 !("Create New Space") ; Create a new space for the CRUD operation
 ; Create 
@@ -46,3 +46,8 @@
  
 !(update-atom &created_entity (Parent Bob Jeny) (Parent Bob Alex))
 !(match &created_entity(Parent Bob $check) $check) ;Expected Updatation is (Georgy, Alex)
+
+
+
+
+;       Implemented by Tesfalegn at iCog-Labs(in Addis Ababa)
