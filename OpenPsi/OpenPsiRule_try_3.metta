@@ -16,7 +16,9 @@
 (= (social-low $social_low)
    (if (>= (social-level) $social_low)
        True
-       False))
+       False
+   )
+)
 
 ;; ======================================
 ;; 3. Define Actions
