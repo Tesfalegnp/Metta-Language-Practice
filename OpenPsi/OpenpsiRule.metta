@@ -2,7 +2,7 @@
 !(bind! &openpsi (new-space))  ; Creates a new AtomSpace to store OpenPsi states
 !(match &openpsi $Value $Value)  ; Basic pattern matching in the space
 
-; Initialize starting states in the AtomSpace
+; Initialize starting states in the AtomSpace,  Let say the Min and Max of each each Demand are 0 an 1 respictively  
 !(add-atom &openpsi (Energy level 0.8))  
 !(add-atom &openpsi (Hungry level 0.3))  
 
