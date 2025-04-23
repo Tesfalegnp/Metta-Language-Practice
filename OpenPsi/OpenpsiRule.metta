@@ -23,12 +23,23 @@
                 (update &openpsi (Energy-level Float) (Energy-level Float)) ;Update energy level
                 (update &openpsi (Hungry-level Float) (Hungry-level Float))  ;Update hunger level
                )))
-;Function
+;Function Recursion Method
 (= (eat-food)
-    (   
-       ("Eating Food for Recovery Energy...")  ; Action message
-       (update &openpsi (Energy level 0.3) (Energy level 0.9))  
-       (update &openpsi (Hungry level 0.7) (Hungry level 0.2))  
+    (   let* ( 
+                 ($energy-update (+ 0.3 0.3))  ; New energy level after eating food
+                 ($hunger-update (- 0.7 0.2)) ; New hunger level after eating food
+             )
+             (  ("Eating Food for Recovery Energy...")  ; Action message
+                ; ($energy-update)                ; Display updated energy level
+                ; ($hunger-update)                ; Display updated hunger level
+                ; (if(>= 0.9 $energy-update)  
+ ;   ?          ;    (eat-food)                    ; Call the eat-food function recursively
+                ;    (" Energy Level is Enough"))  
+                ; (update &openpsi (Energy level 0.3) (Energy level $energy-update)) ;
+                ; (update &openpsi (Hungry level 0.7) (Hungry level $hunger-update)) 
+                (update &openpsi (Energy level 0.3) (Energy level 0.9))  
+                (update &openpsi (Hungry level 0.7) (Hungry level 0.3)) 
+             ) 
     )    
 )
 
