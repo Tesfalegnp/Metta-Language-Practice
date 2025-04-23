@@ -10,7 +10,7 @@
 (= (PredicateNode)("is high"))  
 (= (PredicateNode) ("is low"))
 ; Define possible actions
-(= (actionNode)("eat"))
+(= (actionNode)("eating..."))
 ; Define the starting state label
 (= (start_state)("Current State"))
 
@@ -25,7 +25,7 @@
                   (  
                         (start_state ) 
                      ("Needs's"( actionNode) ("So, Eating...") )
-                  )
+                  ) 
                   ( 
                       "Needs' Treatment it may health problem" 
                   ) 

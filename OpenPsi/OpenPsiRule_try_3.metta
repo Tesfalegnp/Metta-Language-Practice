@@ -24,7 +24,7 @@
 ;; 3. Define Actions
 ;; ======================================
 (= (eat-food)
-   (do
+   (
       (let* 
          (
             ($energy-update (0.8))
@@ -38,7 +38,7 @@
          )))
 
 (= (call-friend)
-   (do
+   (
       (println "Calling a friend...")
       (= social-level 0.7)))
 

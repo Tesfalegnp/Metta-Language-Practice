@@ -7,6 +7,8 @@
 !(add-atom &openpsi (Hungry level 0.3))  
 
 ; Helper function to update atoms in the space
+(: update(->hyperon::space::DynSpace Symbol Symbol)) ;Restruct Data Type for take space and Symoble then Return also Symbol
+;Function
 (= (update $space $old_atom $new_atom)
     (
         let $x (remove-atom $space $old_atom)  
@@ -14,7 +16,14 @@
     )
 )
 
-            ; Action to take when conditions are met - eating food to recover energy
+
+;; Function to simulate eating food and updating energy and hunger levels
+(: eat-food (-> (List   ;
+                String ;Action message
+                (update &openpsi (Energy-level Float) (Energy-level Float)) ;Update energy level
+                (update &openpsi (Hungry-level Float) (Hungry-level Float))  ;Update hunger level
+               )))
+;Function
 (= (eat-food)
     (   
        ("Eating Food for Recovery Energy...")  ; Action message
@@ -23,7 +32,21 @@
     )    
 )
 
-; Context evaluation function - checks conditions and Call actions
+;; Context function to evaluate the current state and decide actions
+;Data Type
+(: context (-> (List 
+               (update &openpsi (Energy level Float) (Energy level Float))
+               (update &openpsi (Hungry level Float) (Hungry level Float))
+               String  ; Energy level message
+               String  ; Hunger level message
+                 (Union 
+                 (List String (update &openpsi ...))  ; eat-food branch ; May Here Some Question? is it right?
+                 String
+                 )
+                )
+            )
+) ; "Enough Energy" branch
+;Function
 (= (context)
   ( 
       ;Simulate energy decrease during work
@@ -64,4 +87,4 @@
 !()
 !("====================================")
 !("After Recovered Energy Level:-" (match &openpsi (Energy level $x) $x))
-!("After Recovered Hunger Level:-" (match &openpsi (Hungry level $x) $x))
+!("After Recovered Hunger Level:-" (match &openpsi (Hungry level $y) $y))

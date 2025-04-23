@@ -4,7 +4,6 @@
 (: PredicateNode Type)
 (: ActionNode Type) 
 (: EvaluationLintk Type)
-
 ; Node definitions for temperature and time conditions
 (= (high_tem)(PredicateNode "tem_high"))
 (= (is_aDayTime)(PredicateNode "is_daytime"))
@@ -37,6 +36,7 @@
 
 ;================================
 ;Test scenario function
+(: test-senario(-> String String))
 (= (test-senario $rule)
   (
     if (== $rule "drunk-when-thrust") ;Check if the rule matches the expected name
