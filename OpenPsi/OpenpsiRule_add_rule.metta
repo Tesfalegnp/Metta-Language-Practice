@@ -1,17 +1,12 @@
-;;; Define add_link function
-(=(add-link $AndLink $temp_c)
-    (type, handles)
-    (cond
-        ((not (is-link type)) (error "Invalid link type"))
-        (else (create-link type handles))
-    )
-)
+; This function creates a rule by adding an AndLink for context and action
+; (: AndLink(-> String String Bool)) 
 (=(AndLink ($x $y)
       if(and $x $y)
           True
           False
   )
 )
+; (: ImplicationLink(-> Bool String String)) ; Implicationlink type
 (=(ImplicationLink $x $y)
   (
     if(== $x True)
@@ -33,4 +28,4 @@
     )
 )
 
-!(add-rule 5 1 0.8 0.9)
+!(add-rule "5" "5" 10 3)
