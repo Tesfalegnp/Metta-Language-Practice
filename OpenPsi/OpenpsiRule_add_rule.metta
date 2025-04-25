@@ -45,6 +45,8 @@
 
 !(match &openpsi (AndLink $x $y)  $y)
 !(match &openpsi (ImplicationLink $x $y) $y)
+
+
 !(match &openpsi $x $y)
 
 
