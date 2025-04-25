@@ -1,5 +1,9 @@
 !(bind! &openpsi (new-space));Create Atom Space
 ;
+( = (OpenPsiRules) &openpsi)
+!(add-atom (OpenPsiRules) (PredicateNode action executed) )
+
+
 ; This function creates a rule by adding an AndLink for context and action
 ; (: AndLink(-> String String Bool)) 
 ; (=(AndLink $x $y)
