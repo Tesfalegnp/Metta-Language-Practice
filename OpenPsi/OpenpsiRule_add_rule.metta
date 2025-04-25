@@ -1,6 +1,4 @@
 !(bind! &openpsi (new-space));Create Atom Space
-
-; !(add-atom &openpsi (ImplicationLink Hell How_are_you))  ; This is for check the Atom Space is it correctly Can add!
 ;
 ; This function creates a rule by adding an AndLink for context and action
 ; (: AndLink(-> String String Bool)) 
@@ -22,22 +20,36 @@
 ;
 ;;; Example usage for add_rule
 ; (: add_rule(->String String String Bool Bool))
-(=(add-rule $context $action $goal $TV)
+( = (add-rule $context $action $goal $TV)
     (let* 
         (     
             ; Create AndLink with context and action And ImplicationLink 
-            ($hca (AndLink $context $action))
-            ($rule (ImplicationLink $hca $goal))
-            (add-atom &openpsi $rule)
+            ($hca (add-atom &openpsi (AndLink $context $action)))
+            ($rule (add-atom &openpsi (ImplicationLink $hca $goal)))
+          
         )
+        $rule
+
         ; Set truth value for the rule
-        (if ( == $rule $goal)
-          (add-atom &openpsi $rule)
-          (empty)
-        )
+        ; (
+        ;   if ( == $rule $goal)
+        ;   (add-atom &openpsi $rule)
+        ;   (empty)
+        ; )
       )
 )
 
 ; !(add-rule True True "Goal meet" T); Like to Test May Test Not correct, I am Not Sure it!
+!(add-rule True True True True)
 
-!(match &openpsi ($z $x $y)  $y)
+
+!(match &openpsi (AndLink $x $y)  $y)
+!(match &openpsi (ImplicationLink $x $y) $y)
+!(match &openpsi $x $y)
+
+
+
+
+
+            ;General Structure
+; [impelementationLink (AndLink (context Action)) goal]
