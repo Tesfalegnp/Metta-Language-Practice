@@ -1,6 +1,6 @@
 !(bind! &openpsi (new-space));Create Atom Space
 
-!(add-atom &openpsi (ImplicationLink Hell How_are_you))  ; This is for check the Atom Space is it correctly Can add!
+; !(add-atom &openpsi (ImplicationLink Hell How_are_you))  ; This is for check the Atom Space is it correctly Can add!
 ;
 ; This function creates a rule by adding an AndLink for context and action
 ; (: AndLink(-> String String Bool)) 
@@ -38,6 +38,6 @@
       )
 )
 
-!(add-rule True True "Goal meet" T); Like to Test May Test Not correct, I am Not Sure it!
+; !(add-rule True True "Goal meet" T); Like to Test May Test Not correct, I am Not Sure it!
 
 !(match &openpsi ($z $x $y)  $y)
