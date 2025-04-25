@@ -1,7 +1,7 @@
 ; This function creates a rule by adding an AndLink for context and action
 ; (: AndLink(-> String String Bool)) 
-(=(AndLink ($x $y)
-      if(and $x $y)
+(=(AndLink $x $y)
+    (if(and $x $y)
           True
           False
   )
@@ -11,21 +11,24 @@
   (
     if(== $x True)
          $y   ;Goal
-        "Not Mutch" ;Out of goal
+        "Does Not Meet The Goal " ;Out of goal
   )
 )
 ;;; Example usage for add_rule
-(=(add-rule $context, $action, $goal, $TV)
+; (: add_rule(->String String String Bool Bool))
+(=(add-rule $context $action $goal $TV)
     (let* 
-        (
+        (     
             ; Create AndLink with context and action And ImplicationLink 
-            ($hca (AndLink ($context $action)))
+            ($hca (AndLink $context $action))
             ($rule (ImplicationLink $hca $goal))
         )
         ; Set truth value for the rule
-        ($rule)
-      
+        (if ( == $rule $goal)
+          (add-atom &self $rule)
+          (empty)
+        )
     )
 )
 
-!(add-rule "5" "5" 10 3); Like to Test May Test Not correct, I am Not Sure it!
+!(add-rule True True "Goal meet" T); Like to Test May Test Not correct, I am Not Sure it!
