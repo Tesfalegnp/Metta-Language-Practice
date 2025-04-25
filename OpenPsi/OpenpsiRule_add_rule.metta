@@ -28,8 +28,8 @@
     (let* 
         (     
             ; Create AndLink with context and action And ImplicationLink 
-            ($hca (add-atom &openpsi (AndLink $context $action)))
-            ($rule (add-atom &openpsi (ImplicationLink $hca $goal)))
+            ($hca (add-atom (OpenPsiRules) (AndLink $context $action)))
+            ($rule (add-atom (OpenPsiRules) (ImplicationLink $hca $goal)))
           
         )
         $rule
@@ -37,7 +37,7 @@
         ; Set truth value for the rule
         ; (
         ;   if ( == $rule $goal)
-        ;   (add-atom &openpsi $rule)
+        ;   (add-atom &self $rule)
         ;   (empty)
         ; )
       )
