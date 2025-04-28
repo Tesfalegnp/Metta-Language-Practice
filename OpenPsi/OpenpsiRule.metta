@@ -1,101 +1,101 @@
-; Create AtomSpace for OpenPsi
-!(bind! &openpsi (new-space))  ; Creates a new AtomSpace to store OpenPsi states
-!(match &openpsi $Value $Value)  ; Basic pattern matching in the space
 
-; Initialize starting states in the AtomSpace,  Let say the Min and Max of each each Demand are 0 an 1 respictively  
-!(add-atom &openpsi (Energy level 0.8))  
-!(add-atom &openpsi (Hungry level 0.3))  
+!(bind! &openpsi (new-space));Create Atom Space
 
-; Helper function to update atoms in the space
-(: update(->hyperon::space::DynSpace Symbol Symbol)) ;Restruct Data Type for take space and Symoble then Return also Symbol
-;Function
-(= (update $space $old_atom $new_atom)
+
+(: And-Link(-> Symbol Expression Symbol Expression)) ; AndLink type
+( = (And-Link $handle $context $action)
     (
-        let $x (remove-atom $space $old_atom)  
-               (add-atom $space $new_atom)     
-    )
-)
-
-
-;; Function to simulate eating food and updating energy and hunger levels
-(: eat-food (-> (List   ;
-                String ;Action message
-                (update &openpsi (Energy-level Float) (Energy-level Float)) ;Update energy level
-                (update &openpsi (Hungry-level Float) (Hungry-level Float))  ;Update hunger level
-               )))
-;Function Recursion Method
-(= (eat-food)
-    (   let* ( 
-                 ($energy-update (+ 0.3 0.3))  ; New energy level after eating food
-                 ($hunger-update (- 0.7 0.2)) ; New hunger level after eating food
-             )
-             (  ("Eating Food for Recovery Energy...")  ; Action message
-                ; ($energy-update)                ; Display updated energy level
-                ; ($hunger-update)                ; Display updated hunger level
-                ; (if(>= 0.9 $energy-update)  
- ;   ?          ;    (eat-food)                    ; Call the eat-food function recursively
-                ;    (" Energy Level is Enough"))  
-                ; (update &openpsi (Energy level 0.3) (Energy level $energy-update)) ;
-                ; (update &openpsi (Hungry level 0.7) (Hungry level $hunger-update)) 
-                (update &openpsi (Energy level 0.3) (Energy level 0.9))  
-                (update &openpsi (Hungry level 0.7) (Hungry level 0.3)) 
-             ) 
-    )    
-)
-
-;; Context function to evaluate the current state and decide actions
-;Data Type
-(: context (-> (List 
-               (update &openpsi (Energy level Float) (Energy level Float))
-               (update &openpsi (Hungry level Float) (Hungry level Float))
-               String  ; Energy level message
-               String  ; Hunger level message
-                 (Union 
-                 (List String (update &openpsi ...))  ; eat-food branch ; May Here Some Question? is it right?
-                 String
-                 )
-                )
+        let*(
+            ($return_ALink (AndLink $context $action))
+            ($_ (add-atom &openpsi $return_ALink))
             )
-) ; "Enough Energy" branch
-;Function
-(= (context)
-  ( 
-      ;Simulate energy decrease during work
-     (update &openpsi (Energy level 0.8) (Energy level 0.3))
-     ; Simulate increased hunger during work
-     (update &openpsi (Hungry level 0.3) (Hungry level 0.7))
-     
-     ; Display current states
-     ("Energy Level during Work time " (match &openpsi (Energy level $x) $x))
-     ("Hungry Level During Work Period :" (match &openpsi (Hungry level $x) $x))
-     
-     ; Rule: If energy is low (0.3) AND hunger is high (0.7), eat food
-     (if (and (== (match &openpsi (Energy level $x) $x) 0.3) 
-             (== (match &openpsi (Hungry level $x) $x) 0.7))
-         (eat-food)  ; Call the Function
-         ("Enough Energy have for the person")  ; Else case
-     )
-  )
+            $return_ALink            
+    )   
 )
 
-; Main function to run the OpenPsi system
-(= (run-openpsi)
+(: Implication-Link(-> Symbol Epression Expression Expression)) ; Implicationlink type
+(=(Implication-Link $linkType $source $target)
     (
-      (context)  ; Evaluate the context and trigger appropriate actions
+        let*
+            (
+                ($return_ILink (: $linkType (ImplicationLink $source $target)))
+                ($_ (add-atom &openpsi $return_ILink))
+                ; ($All_rule (match &openpsi (($return_ILink)) $return_ILink))
+            )
+            $return_ILink      
+    )
+)
+(: AddRule(-> Symbol Expression Symbol Symbol Bool Expression))
+(= (AddRule $handle $context $action $goal $TV)
+    (  
+          let*  (
+                    ($ALink (And-Link $handle $context $action))
+                    ($rule (Implication-Link $handle $ALink $goal))
+                )
+            $rule
     )
 )
 
-; Display section - shows the state before, during and after the OpenPsi run
-!("==================================")
-!("Before Start General(Normal Level) For:-")
+; ( = (is_rule $ptr ($c1 $c2) $action $goal))
+( = (is_rule)
+    (
+        let* (
+               ($rule (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) ))
+            ;  ($rule (match &openpsi (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) ))
+            )
+            $rule
+    )
+)
+( = (add_category $handle $new_category)
+        (
+         let*
+            ( 
+                ($exist (match &openpsi (: $handle (INHERITANCE_LINK $new_category)) (: $handle (INHERITANCE_LINK $new_category))))
+                ($return (
+                             if (== (size-atom $exist) 0)
+                                (
+                                   let* (
+                                        ($category (: $handle (INHERITANCE_LINK $new_category)))
+                                        ($_ (add-atom &openpsi $category))
+                                        )
+                                        ($category)
+                                )
+                                ( 
+                                    (: $handle (INHERITANCE_LINK $new_category))
+                                ))) ) 
+                   $return
+        )
+)
+( = (add_to_Category $handle $rule $category)
+    (
+        let* (
+                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category)))
+                ($_ (add_category $handle $category))
+            )
+            $rule
+    )
+)
 
-!( "Energy Level:" (match &openpsi (Energy level $x) $x))
-!( "Hungry Level:" (match &openpsi (Hungry level $y) $y))
-!()
-!("====================================")
-!("During Work Period It convert to:-")
-!(run-openpsi)  ; Execute the OpenPsi system
-!()
-!("====================================")
-!("After Recovered Energy Level:-" (match &openpsi (Energy level $x) $x))
-!("After Recovered Hunger Level:-" (match &openpsi (Hungry level $y) $y))
+( = (getContext $rule)
+    (
+        let*
+            (
+             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $context))
+             ($ptr (get-type $x))
+            )
+            $ptr
+    )
+)
+
+
+
+!(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
+
+!(is_rule) ; it should return the rule
+
+!(add_category pointer category)
+
+; !(add-atom &openpsi (A a))
+; !(match &openpsi (A a) (A a)) 
+; !(match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
+; !(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
