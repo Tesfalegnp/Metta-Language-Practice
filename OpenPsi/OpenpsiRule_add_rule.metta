@@ -35,21 +35,28 @@
     )
 )
 
-
-!(AddRule Home (c1 c2) action goal True)
-
-( = (is_rule $handle $andLink )
+; ( = (is_rule $ptr ($c1 $c2) $action $goal))
+( = (is_rule)
     (
-        let $x (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
+        let* (
+               ($rule (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) ))
+            ;  ($rule (match &openpsi (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) ))
 
+            )
+            $rule
+            
     )
 )
 
+!(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
+
+!(is_rule) ; it should return the rule
 
 
-!(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
-!(add-atom &openpsi (A a))
-!(match &openpsi (A a) (A a)) 
 
 
+
+; !(add-atom &openpsi (A a))
+; !(match &openpsi (A a) (A a)) 
 ; !(match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
+; !(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
