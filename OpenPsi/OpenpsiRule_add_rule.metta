@@ -47,14 +47,37 @@
             
     )
 )
+( = (add_category $handle $new_category)
+        (
+         let*
+            ( 
+                ($exist (match &openpsi (: $handle (INHERITANCE_LINK $new_category)) (: $handle (INHERITANCE_LINK $new_category))))
+                ($return (
+                             if (== (size-atom $exist) 0)
+                                (
+                                   let* (
+                                        ($category (: $handle (INHERITANCE_LINK $new_category)))
+                                        ($_ (add-atom &openpsi $category))
+                                        )
+                                        ($category)
+                                )
+                                ( 
+                                    (: $handle (INHERITANCE_LINK $new_category))
+                                ))) ) 
+                   $return
+        )
+)
+
+
+
+
+
 
 !(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
 
 !(is_rule) ; it should return the rule
 
-
-
-
+!(add_category pointer category)
 
 ; !(add-atom &openpsi (A a))
 ; !(match &openpsi (A a) (A a)) 
