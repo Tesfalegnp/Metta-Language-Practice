@@ -1,43 +1,55 @@
 !(bind! &openpsi (new-space));Create Atom Space
 
 
-; (: And-Link(-> Expression String String)) ; AndLink type
+(: And-Link(-> Symbol Expression Symbol Expression)) ; AndLink type
 ( = (And-Link $handle $context $action)
     (
         let*(
             ($return_ALink (AndLink $context $action))
             ($_ (add-atom &openpsi $return_ALink))
             )
-            ($return_ALink)            
+            $return_ALink            
     )   
 )
 
-; (: Implication-Link(-> Expression String String)) ; Implicationlink type
-(=(Implication-Link $handle $andLink $goal)
+(: Implication-Link(-> Symbol Epression Expression Expression)) ; Implicationlink type
+(=(Implication-Link $linkType $source $target)
     (
         let*
             (
-                ($return_ILink (ImplicationLink $andLink $goal))
+                ($return_ILink (: $linkType (ImplicationLink $source $target)))
                 ($_ (add-atom &openpsi $return_ILink))
+                ; ($All_rule (match &openpsi (($return_ILink)) $return_ILink))
             )
-            $return_ILink       
+            $return_ILink      
     )
 )
-; (: AddRule(-> Symbol Expression Symbol Symbol Bool Symbol))
+(: AddRule(-> Symbol Expression Symbol Symbol Bool Expression))
 (= (AddRule $handle $context $action $goal $TV)
     (  
           let*  (
                     ($ALink (And-Link $handle $context $action))
-                    ($rule (Implication-Link $ALink $goal))
+                    ($rule (Implication-Link $handle $ALink $goal))
                 )
             $rule
     )
 )
-; !(AddRule goal (c1 c2) h h True)
+
 
 !(AddRule Home (c1 c2) action goal True)
 
-!(match &openpsi(ImplicationLink $y $x) (ImplicationLink $y $x))
+( = (is_rule $handle $andLink )
+    (
+        let $x (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
+
+    )
+)
 
 
 
+!(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
+!(add-atom &openpsi (A a))
+!(match &openpsi (A a) (A a)) 
+
+
+; !(match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
