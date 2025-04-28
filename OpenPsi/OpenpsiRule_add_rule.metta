@@ -65,9 +65,26 @@
                    $return
         )
 )
+( = (add_to_Category $handle $rule $category)
+    (
+        let* (
+                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category)))
+                ($_ (add_category $handle $category))
+            )
+            $rule
+    )
+)
 
-
-
+( = (getContext $rule)
+    (
+        let*
+            (
+             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $context))
+             ($ptr (get-type $x))
+            )
+            $ptr
+    )
+)
 
 
 
@@ -81,3 +98,4 @@
 ; !(match &openpsi (A a) (A a)) 
 ; !(match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
 ; !(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
+!(get-type-space (&openpsi $a) )
