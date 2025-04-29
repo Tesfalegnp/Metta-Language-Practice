@@ -1,6 +1,6 @@
-!(bind! &openpsi_sat(new-space))
+!(bind! &openpsi(new-space))
 
-( = (as) &openpsi_sat)
+( = (as) &openpsi)
 
 (: grounding(-> Expression Expression Bool)); Set Data Type for Grounding Function
 ( = (grounding $var_soln $term_soln)
