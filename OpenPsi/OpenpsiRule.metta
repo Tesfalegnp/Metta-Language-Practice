@@ -66,6 +66,8 @@
                    $return
         )
 )
+
+(: add_to_Category(->Symbol Expression Symbol Expression))
 ( = (add_to_Category $handle $rule $category)
     (
         let* (
@@ -76,12 +78,46 @@
     )
 )
 
+(: getContext(->Expression Symbol))
 ( = (getContext $rule)
     (
         let*
             (
              ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $context))
-             ($ptr (get-type $x))
+             ($ptr (if($x)
+                        ((get-type $x))
+                        (%Undefined%) )
+             )
+            )
+            $ptr
+    )
+)
+
+(: getAction (->Expression Symbol))
+( = (getAction $rule)
+    (
+        let*
+            (
+             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $action))
+             ($ptr (if($x)
+                        ((get-type $x))
+                        (%Undefined%) )
+             )
+            )
+            $ptr
+    )
+)
+
+(: getGoal(->Expression Symbol))
+( = (getGoal $rule)
+    (
+        let*
+            (
+             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $goal))
+             ($ptr (if($x)
+                        ((get-type $x))
+                        (%Undefined%) )
+             )
             )
             $ptr
     )
@@ -89,11 +125,19 @@
 
 
 
+                    ;;; Test
+
 !(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
 
 !(is_rule) ; it should return the rule
 
 !(add_category pointer category)
+
+
+
+
+
+
 
 ; !(add-atom &openpsi (A a))
 ; !(match &openpsi (A a) (A a)) 
