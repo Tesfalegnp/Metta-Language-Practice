@@ -1,10 +1,12 @@
 !(bind! &openpsi( new-space))
 !(bind! &openpsi_catch (new-space))
-!(bind! &openpsi_record)
+!(bind! &openpsi_record (new-space))
+!(bind! &openpsiRule OpenpsiRule)
 
 ( = (as) &openpsi)
 ( = (as_catch) &openpsi_catch)
 ( = (as_record) &openpsi_record)
+( = (opr) &openpsiRule)
 
 ( = (TRUE_TV) True)
 ( = (FALSE_TV) False)
@@ -14,7 +16,7 @@
 ( = (check_satisfiability $rule $opr)
     (
        let* (
-                ($query_body (if (== (match (as) ($rule))  (match (as) ($opr)))
+                ($query_body ( if  (== (match (as) ($rule))  (match (as) ($opr)))
                                       ( let*(
                                                 ( 
                                                     ($_ (remove-atom (as_catch) $rule))
@@ -35,8 +37,31 @@
 )
 ( = (imply $rule $opr)
     (
-        if(== (match (as_record) $rule) $rule)
+          if(== (match (as_record) $rule) $rule)
             ("The openpsi rule should be checked for satisfiablity first.")
-            
+            (
+                let* 
+                (
+                    ($condition (match (as_catch) $rule))
+                    ($count (size-atom $condition))
+                    ($result (if (== $count 0))
+                                (TRUE_TV)
+                                (FALSE_TV)
+                        )
+                )
+                ($result)
+            )
+
+    )
+)
+( = (was_action_executed $rule)
+    (
+        let* 
+        ($executed (match (as_record) $rule))
+        (
+            if($executed)
+                (TRUE_TV)
+                (FALSE_TV)
+        )
     )
 )
