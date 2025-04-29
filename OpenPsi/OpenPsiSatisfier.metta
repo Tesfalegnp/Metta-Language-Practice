@@ -24,10 +24,4 @@
                                         ($implicator ($var_soln))
                                      )
                                      (True)
-                            )
-                         )
-                )
-
-            )
-    )
-)
+                            ))))))
