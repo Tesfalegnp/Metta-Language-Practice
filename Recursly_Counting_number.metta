@@ -7,7 +7,7 @@
 )
 (= (ruc $range)
     (
-        if(< $range 15)
+        if(< $range 15) ;Bounder for the Counting
         (
             let* 
                 (
@@ -20,4 +20,4 @@
         ("End")
     )
 )
-!(ruc 0)
+!(ruc 0); It count Up to 15 Number
