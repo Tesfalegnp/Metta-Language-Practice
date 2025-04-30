@@ -1,5 +1,5 @@
 
-(: add(-> Number Number Number))
+(: add(-> Number Number Number)) 
 ( = (add $pre $next) (+ $pre $next ) ) ;Add Function
 
 
