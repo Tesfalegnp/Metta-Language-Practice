@@ -71,7 +71,7 @@
 ( = (add_to_Category $handle $rule $category)
     (
         let* (
-                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depende in C++ code But MemberLink should be InheritanceLink.
+                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
                 ($_ (add_category $handle $category))
             )
             $rule
