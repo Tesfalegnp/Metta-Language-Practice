@@ -9,3 +9,8 @@
             ()
     )
 )
+( = (add_category $new_category)
+    (
+        
+    )
+)
