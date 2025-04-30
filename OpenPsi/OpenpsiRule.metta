@@ -55,7 +55,7 @@
                              if (== (size-atom $exist) 0)
                                 (
                                    let* (
-                                        ($category (: $handle (INHERITANCE_LINK $new_category)))
+                                        ($category (: $handle (INHERITANCE_LINK $new_category))) ;it maynot work correctly Be check more MemberLink and InheritanceLink
                                         ($_ (add-atom &openpsi $category))
                                         )
                                         ($category)
@@ -71,20 +71,25 @@
 ( = (add_to_Category $handle $rule $category)
     (
         let* (
-                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category)))
+                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depende in C++ code But MemberLink should be InheritanceLink.
                 ($_ (add_category $handle $category))
             )
             $rule
     )
 )
-
+( = (get-category())
+    (
+        ;How Can i retrive all data from Created Atom Space, I am not sure here to implement this code
+        ;Please Could you helpe me here?
+    )
+)
 (: getContext(->Expression Symbol))
 ( = (getContext $rule)
     (
         let*
             (
              ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $context))
-             ($ptr (if($x)
+             ($ptr ( if($x)
                         ((get-type $x))
                         (%Undefined%) )
              )

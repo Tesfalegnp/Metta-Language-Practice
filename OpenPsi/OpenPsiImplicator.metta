@@ -6,7 +6,7 @@
 ( = (as) &openpsi)
 ( = (as_catch) &openpsi_catch)
 ( = (as_record) &openpsi_record)
-( = (opr) &openpsiRule)
+( = (op_rule) &openpsiRule)
 
 ( = (TRUE_TV) True)
 ( = (FALSE_TV) False)
@@ -16,7 +16,7 @@
 ( = (check_satisfiability $rule $opr)
     (
        let* (
-                ($query_body ( if  (== (match (as) ($rule))  (match (as) ($opr)))
+                ($query_body ( if  (== (match (as) ($rule))  (match (op_rule) ($opr)))
                                       ( let*(
                                                 ( 
                                                     ($_ (remove-atom (as_catch) $rule))
