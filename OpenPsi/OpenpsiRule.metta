@@ -1,35 +1,51 @@
 
 !(bind! &openpsi (new-space));Create Atom Space
 
+(= (FALSE_TV)(False (STV 0.0 1.0))); Stringth Truth Value (STV <Stringth> <Confidence>)
+(= (TRUE_TV) (True (STV 1.0 1.0)))
 
-(: And-Link(-> Symbol Expression Symbol Expression)) ; AndLink type
-( = (And-Link $handle $context $action)
+(: Link_Fun(-> Expression Symbol Expression)) 
+( = (Link_Fun $context $action)  ; AndLink type
     (
         let*(
-            ($return_ALink (AndLink $context $action))
-            ($_ (add-atom &openpsi $return_ALink))
+            ($return_AndLink (AndLink $context $action))
+            ($_ (add-atom &openpsi $return_AndLink))
             )
-            $return_ALink            
+            $return_AndLink            
     )   
 )
 
-(: Implication-Link(-> Symbol Epression Expression Expression)) ; Implicationlink type
-(=(Implication-Link $linkType $source $target)
+(: Link_Fun(-> Symbol Epression Expression Expression)) ; Implicationlink type
+(=(Link_Fun $handle $context $action $goal)
     (
         let*
-            (
-                ($return_ILink (: $linkType (ImplicationLink $source $target)))
-                ($_ (add-atom &openpsi $return_ILink))
+            (   
+                ($source (Link_Fun $context $action))
+                ($return_ILink (: $linkType (ImplicationLink $source $goal)))
+                ($pre_rule (collapse (match &openpsi (: $linkType (ImplicationLink $source $goal)) (: $linkType (ImplicationLink $source $goal)) ) )) ;Retriving the Match Pattern from pre Atom Space
+                ($check (== (size-atom $pre_rule) 0))
+                
                 ; ($All_rule (match &openpsi (($return_ILink)) $return_ILink))
             )
-            $return_ILink      
+            (  if($check == True)
+                    (
+                       let*(
+                            ($new_Rule (: $linkType (ImplicationLink $source $goal)))  
+                            ($_ (add-atom &openpsi $new_Rule))
+                           )
+                           ($source $new_Rule)
+
+                    )
+                    ($source (car-atom $pre_rule))
+            )
     )
 )
 (: AddRule(-> Symbol Expression Symbol Symbol Bool Expression))
 (= (AddRule $handle $context $action $goal $TV)
     (  
           let*  (
-                    ($ALink (And-Link $handle $context $action))
+                    (($AndLink $rule) (Link_Fun $handle $context $action $goal))
+                    ($exist (E))
                     ($rule (Implication-Link $handle $ALink $goal))
                 )
             $rule
@@ -37,6 +53,7 @@
 )
 
 ; ( = (is_rule $ptr ($c1 $c2) $action $goal))
+
 ( = (is_rule)
     (
         let* (
