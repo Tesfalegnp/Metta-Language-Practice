@@ -1,5 +1,6 @@
 
 !(bind! &openpsi (new-space));Create Atom Space
+!(bind! &category (new-space))
 
 (= (openpsi) &openpsi)
 
@@ -94,43 +95,33 @@
 ; )
 
 
-; ( = (add_category $handle $new_category)
-;         (
-;          let*
-;             ( 
-;                 ($exist (match &openpsi (: $handle (INHERITANCE_LINK $new_category)) (: $handle (INHERITANCE_LINK $new_category))))
-;                 ($return (
-;                              if (== (size-atom $exist) 0)
-;                                 (
-;                                    let* (
-;                                         ($category (: $handle (INHERITANCE_LINK $new_category))) ;it maynot work correctly Be check more MemberLink and InheritanceLink
-;                                         ($_ (add-atom &openpsi $category))
-;                                         )
-;                                         ($category)
-;                                 )
-;                                 ( 
-;                                     (: $handle (INHERITANCE_LINK $new_category))
-;                                 ))) ) 
-;                    $return
-;         )
-; )
+( = (add_category $new_category)
+        (
+           if ((Exist_fun &category $new_category))
+                   ($new_category) ;if Category is Founded
+                   (let* (
+                            ($_ (add-atom &category (: $new_category Category)))
+                         ) $new_category 
+                   )))
 
-; (: add_to_Category(->Symbol Expression Symbol Expression))
-; ( = (add_to_Category $handle $rule $category)
-;     (
-;         let* (
-;                 ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
-;                 ($_ (add_category $handle $category))
-;             )
-;             $rule
-;     )
-; )
-; ( = (get-category())
-;     (
-;         ;How Can i retrive all data from Created Atom Space, I am not sure here to implement this code
-;         ;Please Could you helpe me here?
-;     )
-; )
+(: add_to_Category(->Symbol Expression Symbol Expression))
+( = (add_to_Category $handle $rule $category)
+    (
+        let* (
+                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
+                ($_ (add_category $handle $category))
+            )
+            $rule
+    )
+)
+
+(: get_category(->Atom)) 
+( = (get_category)
+    (
+        collapse(match &category (: $category Category) $category)
+    )
+)
+
 (: getContext(->Expression Symbol))
 ( = (getContext $rule)
     (
@@ -196,7 +187,33 @@
     )
 ) 
 
- 
+;To Update Goal Value without Return anyvalue
+ (: setGoalValue(->Symbol Number (->))); no return type
+(= (setGoalValue $goal $value)
+    ( if((Exist_fun &self $goal))
+            (let (Goal $oldV $old_desired_value) (get-type $goal) 
+                (update-atom &self (: $goal (Goal $oldV $old_desired_value)) (: $goal (Goal $value $old_desired_value) ))
+            )
+            (Invalid Goal Id)
+    )
+)
+
+;To Update Desired Goal Value without Return anyvalue
+ (: setGoal_DV(->Symbol Number (->))); no return type
+(= (setGoal_DV $goal $value)
+    ( if((Exist_fun &self $goal))
+            (let (Goal $oldV $old_desired_value) (get-type $goal) 
+                (update-atom &self (: $goal (Goal $oldV $old_desired_value)) (: $goal (Goal $oldV $$value) ))
+            )
+            (Invalid Goal Id)
+    )
+)
+
+
+
+
+
+
                     ;;; Test
 
 !(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
