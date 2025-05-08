@@ -25,7 +25,7 @@
                 ($source (Link_Fun $context $action))
                 ($return_ILink (: $linkType (ImplicationLink $source $goal)))
                 ($pre_rule (collapse (match &openpsi (: $linkType (ImplicationLink $source $goal)) (: $linkType (ImplicationLink $source $goal)) ) )) ;Retriving the Match Pattern from pre Atom Space
-                ($check (== (size-atom $pre_rule) 0))
+                ($check (== (size-atom $pre_rule) 0)) ; Generate TruthValue for the variable check
                 
             )
             (  if(== $check True)
@@ -48,14 +48,14 @@
     )
 )
 
-(= Exist_fun(->hyperon::space::DynSpace Atom Bool)) ;if anything not found, generete false, otherway True
+(= Exist_fun(-> hyperon::space::DynSpace Atom Bool)) ;if anything not found, generete false, otherway True
 (= (Exist_fun $space $atom) 
     (
         let $result (collapse (get-type-space $space $atom)) (not (== (%Undefined%) $result)) ;Retriveing Type information
     )
 )
 
-(: ruleType  (-> Grounded Atom))
+(: ruleType(-> Grounded Atom))
 ( = (ruleType $atom)
     (collapse (get-type-space &openpsi $atom))
 )
@@ -83,99 +83,120 @@
     )
 )
 
-( = (is_rule)
-    (
-        let* (
-               ($rule (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) ))
-            ;  ($rule (match &openpsi (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) ))
-            )
-            $rule
-    )
-)
-( = (add_category $handle $new_category)
-        (
-         let*
-            ( 
-                ($exist (match &openpsi (: $handle (INHERITANCE_LINK $new_category)) (: $handle (INHERITANCE_LINK $new_category))))
-                ($return (
-                             if (== (size-atom $exist) 0)
-                                (
-                                   let* (
-                                        ($category (: $handle (INHERITANCE_LINK $new_category))) ;it maynot work correctly Be check more MemberLink and InheritanceLink
-                                        ($_ (add-atom &openpsi $category))
-                                        )
-                                        ($category)
-                                )
-                                ( 
-                                    (: $handle (INHERITANCE_LINK $new_category))
-                                ))) ) 
-                   $return
-        )
-)
+; ( = (is_rule)
+;     (
+;         let* (
+;                ($rule (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) ))
+;             ;  ($rule (match &openpsi (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) ))
+;             )
+;             $rule
+;     )
+; )
 
-(: add_to_Category(->Symbol Expression Symbol Expression))
-( = (add_to_Category $handle $rule $category)
-    (
-        let* (
-                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
-                ($_ (add_category $handle $category))
-            )
-            $rule
-    )
-)
-( = (get-category())
-    (
-        ;How Can i retrive all data from Created Atom Space, I am not sure here to implement this code
-        ;Please Could you helpe me here?
-    )
-)
+
+; ( = (add_category $handle $new_category)
+;         (
+;          let*
+;             ( 
+;                 ($exist (match &openpsi (: $handle (INHERITANCE_LINK $new_category)) (: $handle (INHERITANCE_LINK $new_category))))
+;                 ($return (
+;                              if (== (size-atom $exist) 0)
+;                                 (
+;                                    let* (
+;                                         ($category (: $handle (INHERITANCE_LINK $new_category))) ;it maynot work correctly Be check more MemberLink and InheritanceLink
+;                                         ($_ (add-atom &openpsi $category))
+;                                         )
+;                                         ($category)
+;                                 )
+;                                 ( 
+;                                     (: $handle (INHERITANCE_LINK $new_category))
+;                                 ))) ) 
+;                    $return
+;         )
+; )
+
+; (: add_to_Category(->Symbol Expression Symbol Expression))
+; ( = (add_to_Category $handle $rule $category)
+;     (
+;         let* (
+;                 ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
+;                 ($_ (add_category $handle $category))
+;             )
+;             $rule
+;     )
+; )
+; ( = (get-category())
+;     (
+;         ;How Can i retrive all data from Created Atom Space, I am not sure here to implement this code
+;         ;Please Could you helpe me here?
+;     )
+; )
 (: getContext(->Expression Symbol))
 ( = (getContext $rule)
     (
-        let*
-            (
-             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $context))
-             ($ptr ( if($x)
-                        ((get-type $x))
-                        (%Undefined%) )
-             )
-            )
-            $ptr
+         case (ruleType $rule)
+         (
+            (((ImplicationLink (AndLink ($context $action)) $goal)) $context)
+            (((ImplicationLink (AndLink ($context $action)) $goal) (TTV $timestamp $stv)) $context)
+            (((TTV $timestamp $stv) (ImplicationLink (AndLink ($context $action)) $goal)) $context)
+            ($_ %Undefined%)
+         )
     )
 )
 
 (: getAction (->Expression Symbol))
 ( = (getAction $rule)
     (
-        let*
-            (
-             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $action))
-             ($ptr (if($x)
-                        ((get-type $x))
-                        (%Undefined%) )
-             )
-            )
-            $ptr
+        case (ruleType $rule)
+         (
+            (((ImplicationLink (AndLink ($context $action)) $goal)) $action)
+            (((ImplicationLink (AndLink ($context $action)) $goal) (TTV $timestamp $stv)) $action)
+            (((TTV $timestamp $stv) (ImplicationLink (AndLink ($context $action)) $goal)) $action)
+            ($_ %Undefined%)
+         )
     )
 )
 
 (: getGoal(->Expression Symbol))
 ( = (getGoal $rule)
     (
-        let*
-            (
-             ($x (match &openpsi (: $handle (ImplicationLink (AndLink $context $action) $goal)) $goal))
-             ($ptr (if($x)
-                        ((get-type $x))
-                        (%Undefined%) )
-             )
-            )
-            $ptr
+        case (ruleType $rule)
+         (
+            (((ImplicationLink $AndLink $goal)) $goal)
+            (((ImplicationLink $AndLink $goal) (TTV $timestamp $stv)) $goal)
+            (((TTV $timestamp $stv) (ImplicationLink $AndLink $goal)) $goal)
+            ($_ %Undefined%)
+         )
     )
 )
 
+(: IsValid(->Number Bool))
+(= (IsValid $value)
+    (and (>= $value 0.0) (<= $value 1.0))
+)
+ 
+ (= (addGoalHelper $name $Value $dgv)
+    (
+        if (and (IsValid $Value) (IsValid $dgv))
+        ( if(not (Exist_fun &self $name))
+            ( let* (
+                     ($_ (add-atom &self (: $name (Goal $Value $dgv))))
+                     )
+                     $name
+            ) (Goal With Id $name is Already Existed)
+        ) (Invalid goal or DesiredGoalValue(dgv) Value)
+    )
+ )
 
+(: addGoal(->Symbol Number Atom Atom))
+(= (addGoal $name $value $dgv)
+    (if(== $dgv ())
+        (addGoalHelper $name $value 1.0)
+        (addGoalHelper $name $value $dgv)
+    )
+) 
 
+ 
                     ;;; Test
 
 !(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
