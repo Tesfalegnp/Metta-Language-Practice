@@ -1,6 +1,8 @@
 
 !(bind! &openpsi (new-space));Create Atom Space
 
+(= (openpsi) &openpsi)
+
 (= (FALSE_TV)(False (STV 0.0 1.0))); Stringth Truth Value (STV <Stringth> <Confidence>)
 (= (TRUE_TV) (True (STV 1.0 1.0)))
 
@@ -25,9 +27,8 @@
                 ($pre_rule (collapse (match &openpsi (: $linkType (ImplicationLink $source $goal)) (: $linkType (ImplicationLink $source $goal)) ) )) ;Retriving the Match Pattern from pre Atom Space
                 ($check (== (size-atom $pre_rule) 0))
                 
-                ; ($All_rule (match &openpsi (($return_ILink)) $return_ILink))
             )
-            (  if($check == True)
+            (  if(== $check True)
                     (
                        let*(
                             ($new_Rule (: $linkType (ImplicationLink $source $goal)))  
@@ -40,19 +41,47 @@
             )
     )
 )
+
+(= (update-atom $space $old $new)
+    (
+      let $x (remove-atom $space $old) (add-atom $space $new)
+    )
+)
+
+(= Exist_fun(->hyperon::space::DynSpace Atom Bool)) ;if anything not found, generete false, otherway True
+(= (Exist_fun $space $atom) 
+    (
+        let $result (collapse (get-type-space $space $atom)) (not (== (%Undefined%) $result)) ;Retriveing Type information
+    )
+)
+
+(: ruleType  (-> Grounded Atom))
+( = (ruleType $atom)
+    (collapse (get-type-space &openpsi $atom))
+)
+
 (: AddRule(-> Symbol Expression Symbol Symbol Bool Expression))
 (= (AddRule $handle $context $action $goal $TV)
     (  
           let*  (
                     (($AndLink $rule) (Link_Fun $handle $context $action $goal))
-                    ($exist (E))
-                    ($rule (Implication-Link $handle $ALink $goal))
+                    ($exist (Exist_fun (openpsi) $rule))
                 )
-            $rule
+                ( if(== $exist True)
+                    (: $handle (ruleType $handle))
+                    (
+                        let* (
+                                ($NewRule (: $handle (ImplicationLink $AndLink $goal)))
+                                ($_ (add-atom (openpsi) (: $handle $TV)))
+                                ($_ (add-atom &self (IsExecuted $handle)))
+                                ($_ (update-atom (openpsi) $rule $NewRule))
+                             )
+                             (: $handle (ruleType $handle))
+                    )
+                    
+                )
     )
 )
-
-; ( = (is_rule $ptr ($c1 $c2) $action $goal))
 
 ( = (is_rule)
     (

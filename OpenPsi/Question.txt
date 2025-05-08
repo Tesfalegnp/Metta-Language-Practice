@@ -1,0 +1,2 @@
+1, rule.metta (line 41-41) what the 'get-type-space' function retrive?
+2, rule.metta (line 40) Can work correctly without bracket data type?
