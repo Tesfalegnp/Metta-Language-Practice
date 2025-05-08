@@ -227,8 +227,3 @@
 
 
 
-
-; !(add-atom &openpsi (A a))
-; !(match &openpsi (A a) (A a)) 
-; !(match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) )
-; !(size-atom  (collapse ( match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ))))
