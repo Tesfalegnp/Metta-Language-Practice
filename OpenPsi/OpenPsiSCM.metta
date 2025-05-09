@@ -17,6 +17,9 @@
     )
 )
 
+          	python -m pip install hyperon==0.2.3
+
+
 (: was_action_executed(->Expression Expression)) ;?
 ( = (was_action_executed $rule)
     (

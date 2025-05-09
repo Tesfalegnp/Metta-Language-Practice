@@ -1,5 +1,8 @@
+
+
 !(bind! &openpsi(new-space))
-!(bind &openpsi_catch (new-space))
+
+!(bind! &openpsi_catch (new-space))
 
 ( = (as) &openpsi)
 ( = (as_catch) &openpsi_catch)
@@ -9,8 +12,8 @@
     (
         let*
             (
-                ($result (True))
-                ($count (sizea-atom $var_soln))
+                ($result (True)) 
+                ($count (size-atom $var_soln))
                 ($return ( if(< 0 $count)
                             ( 
                                 let* (
@@ -23,7 +26,10 @@
                             ) 
                             (
                                 let* (
-                                        ($_ (add-atom (as_catch) $var_soln))
+                                    ($_ (add-atom (as_catch) $var_soln))
                                      )
                                      (True)
-                            ))))))                            
+                            )))
+                    )
+    )
+)                            

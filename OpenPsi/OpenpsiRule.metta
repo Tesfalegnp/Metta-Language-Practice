@@ -1,4 +1,3 @@
-
 !(bind! &openpsi (new-space));Create Atom Space
 !(bind! &category (new-space))
 
@@ -7,7 +6,7 @@
 (= (FALSE_TV)(False (STV 0.0 1.0))); Stringth Truth Value (STV <Stringth> <Confidence>)
 (= (TRUE_TV) (True (STV 1.0 1.0)))
 
-(: Link_Fun(-> Symbol Epression Expression Expression)) ; Implicationlink type
+(: Link_Fun(-> Symbol Epression Expression Expression Expression)) ; Implicationlink type
 (= (Link_Fun $handle $context $action $goal)
     (
         let*
@@ -240,9 +239,9 @@
 
                     ;;; Test
 
-!(AddRule Home (c1 c2) action goal True) ; Add rule to the atom space
+!(AddRule handle (c1 c2) action goal True) ; Add rule to the atom space
 
-!(is_rule) ; it should return the rule
+!(is_rule (: handle (c1 c2) action goal)) ; it should return the rule
 
 !(add_category pointer category)
  
