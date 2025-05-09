@@ -237,16 +237,6 @@
 
 
 
-                    ;;; Test
-
-!(AddRule handle (c1 c2) action goal True) ; Add rule to the atom space
-
-!(is_rule (: handle (c1 c2) action goal)) ; it should return the rule
-
-!(add_category pointer category)
- 
-
-
 
 
 
