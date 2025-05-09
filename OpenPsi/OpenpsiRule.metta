@@ -7,19 +7,8 @@
 (= (FALSE_TV)(False (STV 0.0 1.0))); Stringth Truth Value (STV <Stringth> <Confidence>)
 (= (TRUE_TV) (True (STV 1.0 1.0)))
 
-(: Link_Fun(-> Expression Symbol Expression)) 
-( = (Link_Fun $context $action)  ; AndLink type
-    (
-        let*(
-            ($return_AndLink (AndLink $context $action))
-            ($_ (add-atom &openpsi $return_AndLink))
-            )
-            $return_AndLink            
-    )   
-)
-
 (: Link_Fun(-> Symbol Epression Expression Expression)) ; Implicationlink type
-(=(Link_Fun $handle $context $action $goal)
+(= (Link_Fun $handle $context $action $goal)
     (
         let*
             (   
@@ -42,6 +31,19 @@
             )
     )
 )
+
+
+(: Link_Fun(-> Expression Symbol Expression)) 
+( = (Link_Fun $context $action)  ; AndLink type
+    (
+        let*(
+            ($return_AndLink (AndLink $context $action))
+            ($_ (add-atom &openpsi $return_AndLink))
+            )
+            $return_AndLink            
+    )   
+)
+
 
 (= (update-atom $space $old $new)
     (
