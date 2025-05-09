@@ -74,7 +74,7 @@
                         let* (
                                 ($NewRule (: $handle (ImplicationLink $AndLink $goal)))
                                 ($_ (add-atom (openpsi) (: $handle $TV)))
-                                ($_ (add-atom &self (IsExecuted $handle)))
+                                ($_ (add-atom &self (IsExecuted $handle (FALSE_TV))))
                                 ($_ (update-atom (openpsi) $rule $NewRule))
                              )
                              (: $handle (ruleType $handle))
@@ -84,17 +84,11 @@
     )
 )
 
-; ( = (is_rule)
-;     (
-;         let* (
-;                ($rule (match &openpsi (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) (: Home (ImplicationLink (AndLink (c1 c2) action) goal) ) ))
-;             ;  ($rule (match &openpsi (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) (: $ptr (ImplicationLink (AndLink ($c1 $c2) $action) $goal) ) ))
-;             )
-;             $rule
-;     )
-; )
+( = (is_rule $rule)
+    ( (Exist_fun (openpsi) $rule))
+)
 
-
+(:add_category(-> Symbol Symbol))
 ( = (add_category $new_category)
         (
            if ((Exist_fun &category $new_category))
@@ -104,18 +98,21 @@
                          ) $new_category 
                    )))
 
-(: add_to_Category(->Symbol Expression Symbol Expression))
-( = (add_to_Category $handle $rule $category)
+(: add_to_Category(-> Expression Symbol Expression))
+( = (add_to_Category $rule $category)
     (
         let* (
-                ($_ (add-atom &openpsi (MEMBER_LINK $rule $category))); i depend in C++ code But MemberLink should be InheritanceLink.
-                ($_ (add_category $handle $category))
+                ($_ (add_category $category))
+                ($rulePlusCategory (isA $rule $category))
             )
-            $rule
+            ( if((isMember $rulePlusCategory (collapse (get-atom &category ))))
+                (addToCategory: Rule $rule is Already Existed in $category) ;if Category is Found
+                (let* (($_ (add-atom &category $rulePlusCategory))) $rule )  ;Not found, Join Category with Rule
+            )
     )
 )
 
-(: get_category(->Atom)) 
+(: get_category(->Atom)) ;To fetch all Category
 ( = (get_category)
     (
         collapse(match &category (: $category Category) $category)
@@ -209,8 +206,33 @@
     )
 )
 
+( = (relatedGoals $action)
+    (
+        let* (
+                ($AndLink (collapse (match &self (AndLink ($context $action)) (AndLink ($context $action)) )))
+                ($rules  (filterRule $AndLink ()))
+                ($goals (collapse (getGoal (superpose $rules))))
+                ($result (collapse (unique (superpose $goals))))
+            )
+            $result
+    )
+)
 
-
+(= (filterRule $andLink $accum)
+( if(== $andLink ())
+    $accum
+    ( let* (
+            (($head $tail) (decons-atom $andLink))
+            ($handle_rule (collapse (match &self (: $handle (ImplicationLink $head $goal)) $handle )))
+            ($ruleList (concatTuple $handle_rule $accum))
+            ($result (filterRule $tail $ruleList))
+            )
+            ( if(== $head ())
+                $accum
+                $result
+            )
+    )
+))
 
 
 
@@ -221,7 +243,7 @@
 !(is_rule) ; it should return the rule
 
 !(add_category pointer category)
-
+ 
 
 
 
