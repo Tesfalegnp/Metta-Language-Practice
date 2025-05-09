@@ -6,7 +6,7 @@
 (= (FALSE_TV)(False (STV 0.0 1.0))); Stringth Truth Value (STV <Stringth> <Confidence>)
 (= (TRUE_TV) (True (STV 1.0 1.0)))
 
-(: Link_Fun(-> Symbol Epression Expression Expression Expression)) ; Implicationlink type
+(: Link_Fun(-> Symbol Epression Symbol Symbol Expression)) ; Implicationlink type
 (= (Link_Fun $handle $context $action $goal)
     (
         let*
