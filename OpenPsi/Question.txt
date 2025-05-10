@@ -2,3 +2,5 @@
 2, rule.metta (line  258) In if condition isMember is not defined function with in the file So, how is get truth Value? 
 3,rule.metta (line 213-222) when in ReletedGoals Function we Pass only action but the pattern match check AndLink context with Action to get Handle(pointer).  
     How it get context for check? 
+
+4, SetGoalValue and SetDesiredGoalValue Are not work in my code!
