@@ -159,7 +159,7 @@
     )
 )
 
-(: IsValid(->Number Bool))
+(: IsValid(-> Number Bool))
 (= (IsValid $value)
     (and (>= $value 0.0) (<= $value 1.0))
 )

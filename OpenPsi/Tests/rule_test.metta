@@ -10,13 +10,29 @@
 
 ; !(assertEqual (getContext x) (x1 x2))
 
-;(assertEqual <>)
+;            Structure for the AssertEqual Function
+;                  (assertEqual <Actual> <Expected>)
+
+
 !(add-atom &openpsi (: rule1 (ImplicationLink (AndLink (c1 c2) action) goal)))
 !(assertEqual (getContext rule1) %Undefined%)
 !(assertEqual (getGoal rule1) %Undefined%)
 !(assertEqual (getAction rule1) %Undefined%)
 
 
-!(addGoal run 1.0 ())
-!(setGoalValue run 0.5)
-; !(setGoal_DV run 0.1)
+
+
+!(assertEqual (Exist_fun &openpsi rule1) True)
+; !(assertEqual (Exist_fun &openpsi x) False)
+
+
+
+!(addGoal last 1.0 ()) ;To Add the New Goal
+!(assertEqual (addGoal last 1.0 0) (Goal With Id last is Already Existed))  ;Already Existed
+!(assertEqual (addGoal last 1.0 10)(Invalid goal or DesiredGoalValue (dgv) Value)) ;Invalid dgv
+!(assertEqual (addGoal last 10 1.0)(Invalid goal or DesiredGoalValue (dgv) Value)) ;Invalid Value
+
+
+
+; !(setGoalValue run 0.5)  ;Test to change the goal Value
+; !(setGoal_DV run 0.1)   ;
