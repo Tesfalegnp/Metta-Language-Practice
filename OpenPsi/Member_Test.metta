@@ -17,7 +17,6 @@
    )
 
 
-!(allTested (1 2 4 7 5 6 8) (5 7 8 9)) 
 
 
 ; Option 2  Trying other option
@@ -28,6 +27,9 @@
         collapse (unique (union (superpose $test) (superpose $list)))
     )
 )
+
+
+!(allTested (1 2 4 7 5 6 8) (5 7 8 9)) 
 !(MemberList (1 2 4 7 5 6 8) (5 7 8 9))
 
 
