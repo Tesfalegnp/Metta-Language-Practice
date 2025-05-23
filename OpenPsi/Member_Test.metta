@@ -17,20 +17,40 @@
    )
 
 
-
-
 ; Option 2  Trying other option
-
 (: MemberList(->Expression Expression Expression))
 (= (MemberList $test $list)
-    (
-        collapse (unique (union (superpose $test) (superpose $list)))
-    )
+    ( collapse (unique (union (superpose $test) (superpose $list)))   )
 )
 
 
-!(allTested (1 2 4 7 5 6 8) (5 7 8 9)) 
-!(MemberList (1 2 4 7 5 6 8) (5 7 8 9))
+
+; third Option 3
+(= (MemberList_sort $test $list)
+    (sort (collapse (unique (union (superpose $test) (superpose $list))) ))
+)
+
+(: sort(->Expression Expression))
+(= (sort ()) ; If List Empty
+    ()
+)
+(= (sort $list)
+    (
+        let* (
+
+            ($min (min-atom $list))
+            ($remain (subtraction-atom $list ($min)))
+            ($next (sort $remain))
+            )
+            (cons-atom $min $next)
+    )
+)
+
+;    Test
+
+!(allTested (1 21 4 7 5 6 8) (5 7 8 9)) 
+!(MemberList (1 21 4 7 5 6 8) (5 7 8 9))
+!(MemberList_sort (1 21 4 7 5 6 8) (5 7 8 9))
 
 
 
