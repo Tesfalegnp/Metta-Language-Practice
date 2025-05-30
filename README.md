@@ -17,7 +17,7 @@ To run the Metta code in this repository, you'll need to set up your local envir
 2.  **Hyperon:** Metta is implemented on top of the Hyperon execution engine. You need to install the Hyperon Python package. You can install it using pip:
 
     ```bash
-    pip install hyperon==0.2.2
+    pip install hyperon==0.2.3
     ```
 
     **Note:** It's important to use version `0.2.2` to maintain compatibility with the examples in this repository.
