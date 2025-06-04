@@ -1,62 +1,101 @@
-# Beginner Metta Language Practice Code
+<p align="center">
+  <img src="https://singularitynet.io/wp-content/uploads/2024/07/0ZODbe60eW4EwyKPd.jpeg" alt="Metta Language Banner" width="600"/>
+</p>
 
-**This repository contains a collection of beginner-friendly Metta language practice code examples.**
+# Beginner to Intermediate Metta Language Practice Code
 
-## Description
+**This repository contains beginner-to-intermediate level practice examples written in the Metta programming language.**
 
-This repository is designed to help individuals who are new to the Metta programming language. It provides a series of simple examples that demonstrate basic concepts and syntax. By working through these examples, you can gain a foundational understanding of Metta and its capabilities.
+---
 
-**This is for Beginner Metta Language Practice Code -- Try to code each file in your Local computer**
+## 📘 Overview
 
-## How to Run
+This repository is designed to help learners progress from basic to more intermediate-level understanding of the **Metta language**, used in the **OpenCog Hyperon** ecosystem for symbolic reasoning and cognitive architecture development.
 
-To run the Metta code in this repository, you'll need to set up your local environment with the following dependencies:
+Each file in this repository contains small, focused examples that demonstrate fundamental and intermediate Metta concepts such as pattern matching, list manipulation, recursion, and function definitions.
 
-1.  **Python 3:** Metta requires Python 3. Ensure that you have Python 3 installed on your system. You can download it from the official Python website: [https://www.python.org/downloads/](https://www.python.org/downloads/)
+> 💡 **Recommended:** Try running and modifying each `.metta` file on your local machine to reinforce your understanding.
 
-2.  **Hyperon:** Metta is implemented on top of the Hyperon execution engine. You need to install the Hyperon Python package. You can install it using pip:
+---
 
-    ```bash
-    pip install hyperon==0.2.2
-    ```
+## ⚙️ Setup Instructions
 
-    **Note:** It's important to use version `0.2.2` to maintain compatibility with the examples in this repository.
+### 1. Install Python 3
 
-3.  **Virtual Environment (Recommended):** It's highly recommended to create a virtual environment to isolate your project dependencies and avoid conflicts with other Python projects. You can create a virtual environment using the following commands:
+Make sure you have **Python 3.x** installed. You can download the latest version from the official Python website:
+🔗 [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Linux/macOS
-    venv\Scripts\activate  # On Windows
-    ```
+---
 
-    After activating the virtual environment, you can install the required packages using pip as described above.
+### 2. Install Hyperon (Metta Engine)
 
-## Usage
+Metta is powered by the **Hyperon** execution engine. Install it using `pip`:
 
-1.  **Clone the Repository:** Clone this repository to your local machine using Git:
+```bash
+pip install hyperon==0.2.3
+```
 
-    ```bash
-    git clone (https://github.com/Tesfalegnp/Metta-Language-Practice.git)
-    ```
+> ⚠️ **Note:** For best compatibility with these examples, version `0.2.3` or compatible should be used.
 
-2.  **Navigate to the Directory:** Change your current directory to the cloned repository:
+---
 
-    ```bash
-    cd [repository directory]
-    ```
+### 3. Create a Virtual Environment (Recommended)
 
-3.  **Run the Metta Code:** Each `.metta` file in the repository contains Metta code examples. You can run these files using the Hyperon interpreter. For example, to run `example1.metta`, use the following command:
+To keep dependencies clean and avoid conflicts:
 
-    ```bash
-    python3 -m hyperon Map_Determinism.metta
-    ```
+```bash
+python3 -m venv metta-env
+source metta-env/bin/activate   # On Linux/Mac
+metta-env\Scripts\activate      # On Windows
+```
 
+Then, install the required package again inside the virtual environment:
 
-## Contributing
+```bash
+pip install hyperon==0.2.3
+```
 
-Contributions to this repository are welcome! If you have any improvements, bug fixes, or new examples, please feel free to submit a pull request.
+---
 
-## License
+## 🚀 Running the Metta Code
 
-This repository is licensed under the [MIT License](LICENSE).
+### Step 1: Clone this Repository
+
+```bash
+git clone https://github.com/Tesfalegnp/Metta-Language-Practice.git
+```
+
+### Step 2: Navigate to the Repository Folder
+
+```bash
+cd Metta-Language-Practice
+```
+
+### Step 3: Run Metta Examples
+
+Each `.metta` file contains a self-contained example. Use the Hyperon CLI to run a specific file:
+
+```bash
+metta examples/example1.metta
+```
+
+Replace `example1.metta` with the filename of the example you'd like to run.
+
+---
+
+## 🤝 Contributing
+
+Contributions are encouraged and welcomed!
+If you have new Metta examples, improvements, or bug fixes, feel free to:
+
+1. Fork this repository.
+2. Create a new branch.
+3. Submit a pull request.
+
+Let’s help more learners get started with symbolic AGI!
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
